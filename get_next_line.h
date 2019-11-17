@@ -6,7 +6,7 @@
 /*   By: grezette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 12:58:26 by grezette          #+#    #+#             */
-/*   Updated: 2019/11/11 17:59:38 by grezette         ###   ########.fr       */
+/*   Updated: 2019/11/16 18:46:11 by grezette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,17 @@
 # define BUFFER_SIZE 4096
 #endif
 
-typedef struct	s_buff
-{
-	char	*buff[(BUFFER_SIZE < 0) ? 0 : BUFFER_SIZE];
-	size_t	rd;
-	size_t	current;
-}				t_buff;
-
 #include <stdlib.h>
 #include <unistd.h>
 
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <stdio.h>
+
 int		get_next_line(int fd, char **line);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_substr(char const *s, unsigned int start, size_t len);
+void	*ft_memcpy(void *dst, const void *src, size_t n);
+size_t	ft_strlen(const char *s);
 
 #endif
