@@ -12,20 +12,13 @@
 
 #include "get_next_line.h"
 
-void	ft_bzero(void *s, size_t n)
-{
-	unsigned char *str;
-
-	str = s;
-	while (n--)
-		*str++ = 0;
-}
-
 size_t	ft_strlen(const char *s)
 {
 	size_t i;
 
 	i = 0;
+	if (!(s))
+		return (0);
 	while (s[i])
 		i++;
 	return (i);
@@ -33,12 +26,17 @@ size_t	ft_strlen(const char *s)
 
 void	*ft_calloc(size_t count, size_t size)
 {
-	void *tab;
+	void 		*tab;
+	unsigned char 	*str;
+	size_t		n;
 
 	if (!(tab = (void *)malloc(count * size)))
 		return (NULL);
+	str = tab;
+	n = count * size;
 	if (tab)
-		ft_bzero(tab, count * size);
+		while (n--)
+			*str++ = 0;
 	return (tab);
 }
 
@@ -56,7 +54,7 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 	return (dst);
 }
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char *s, unsigned int start, size_t len)
 {
 	char	*str;
 	size_t	size;
@@ -72,10 +70,15 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 		return (NULL);
 	ft_memcpy(str, &s[start], size);
 	str[size] = 0;
+	if (s && start)
+	{
+		free(s);
+		s = 0;
+	}
 	return (str);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	char	*join;
 	size_t	size;
@@ -92,5 +95,10 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (s2)
 		ft_memcpy(&join[size - ft_strlen(s2) - 1], s2, ft_strlen(s2));
 	join[size - 1] = 0;
+	if (s1)
+	{
+		free(s1);
+		s1 = 0;
+	}
 	return (join);
 }
