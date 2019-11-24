@@ -6,21 +6,11 @@
 /*   By: grezette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 12:56:39 by grezette          #+#    #+#             */
-/*   Updated: 2019/11/23 21:12:52 by grezette         ###   ########.fr       */
+/*   Updated: 2019/11/24 11:03:06 by grezette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-
-char	*ft_strdup(const char *s1)
-{
-	char	*str;
-
-	if (!(str = (char *)malloc(sizeof(*str) * (ft_strlen(s1) + 1))))
-		return (NULL);
-	ft_memcpy(str, s1, ft_strlen(s1) + 1);
-	return (str);
-}
 
 int		gnl_is_line(char *str)
 {
