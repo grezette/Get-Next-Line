@@ -6,15 +6,25 @@
 /*   By: grezette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 12:56:39 by grezette          #+#    #+#             */
-/*   Updated: 2019/11/17 20:14:03 by grezette         ###   ########.fr       */
+/*   Updated: 2019/11/23 21:12:52 by grezette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	gnl_is_line(char *str)
+char	*ft_strdup(const char *s1)
 {
-	int i;
+	char	*str;
+
+	if (!(str = (char *)malloc(sizeof(*str) * (ft_strlen(s1) + 1))))
+		return (NULL);
+	ft_memcpy(str, s1, ft_strlen(s1) + 1);
+	return (str);
+}
+
+int		gnl_is_line(char *str)
+{
+	int		i;
 
 	i = 0;
 	if (str == NULL)
@@ -28,10 +38,10 @@ int	gnl_is_line(char *str)
 	return (0);
 }
 
-int	gnl_approve(char **str, char **line, int ret)
+int		gnl_approve(char **str, char **line, int ret)
 {
-	int 	boool;
-	int	i;
+	int		boool;
+	int		i;
 
 	i = 0;
 	if ((boool = gnl_is_line(*str)) || (ret == 0 && (**str && *str)))
@@ -41,7 +51,7 @@ int	gnl_approve(char **str, char **line, int ret)
 		*line = ft_substr(*str, 0, i);
 		if (!(*line))
 			return (-1);
-		*str = ft_substr(*str, ft_strlen(*line) + 1, ft_strlen(*str));
+		*str = ft_substr(*str, i + 1, ft_strlen(*str));
 		if (!(str))
 			return (-1);
 		if (boool)
@@ -50,28 +60,31 @@ int	gnl_approve(char **str, char **line, int ret)
 	return (0);
 }
 
-int	get_next_line(int fd, char **line)
+int		get_next_line(int fd, char **line)
 {
-	static char 	*str = NULL;
+	static char	*str;
 	char		buff[((BUFFER_SIZE < 0) ? 0 : BUFFER_SIZE) + 1];
-	int		ret;
-	int		pb;
+	int			ret;
+	int			pb;
+	char		*tmp;
 
 	ret = 1;
-	if (fd < 0)
+	if (fd < 0 || BUFFER_SIZE == 0 || line == 0)
 		return (-1);
-	while (ret || (ret == 0 && (*str && str)))
+	while (ret || (ret == 0 && (str && *str)))
 	{
 		if ((pb = gnl_approve(&str, line, ret)) == 1)
 			return (1);
 		if ((ret = read(fd, buff, BUFFER_SIZE)) == -1 || pb == -1)
 			return (-1);
 		buff[ret] = 0;
-		str = ft_strjoin(str, buff);
+		tmp = str;
+		str = ft_strjoin(tmp, buff);
+		free(tmp);
 		if (!(str))
 			return (-1);
 	}
-	free(str);
-	str = 0;
+	if (ret == 0)
+		*line = ft_calloc(sizeof(char), 1);
 	return (0);
 }

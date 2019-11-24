@@ -6,7 +6,7 @@
 /*   By: grezette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 13:39:01 by grezette          #+#    #+#             */
-/*   Updated: 2019/11/16 15:57:05 by grezette         ###   ########.fr       */
+/*   Updated: 2019/11/23 19:12:03 by grezette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ size_t	ft_strlen(const char *s)
 
 void	*ft_calloc(size_t count, size_t size)
 {
-	void 		*tab;
-	unsigned char 	*str;
-	size_t		n;
+	void			*tab;
+	unsigned char	*str;
+	size_t			n;
 
 	if (!(tab = (void *)malloc(count * size)))
 		return (NULL);
@@ -62,7 +62,7 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	if (!(s))
 		return (NULL);
 	if (start > ft_strlen(s))
-		return (str = (char *)ft_calloc(1, 1));
+		return (str = (char *)ft_calloc(sizeof(char), 1));
 	size = ft_strlen(&s[start]) + 1;
 	if (size > len)
 		size = len;
@@ -73,7 +73,7 @@ char	*ft_substr(char *s, unsigned int start, size_t len)
 	if (s && start)
 	{
 		free(s);
-		s = 0;
+		s = NULL;
 	}
 	return (str);
 }
@@ -95,10 +95,5 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (s2)
 		ft_memcpy(&join[size - ft_strlen(s2) - 1], s2, ft_strlen(s2));
 	join[size - 1] = 0;
-	if (s1)
-	{
-		free(s1);
-		s1 = 0;
-	}
 	return (join);
 }
