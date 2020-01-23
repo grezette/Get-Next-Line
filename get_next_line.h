@@ -25,12 +25,5 @@
 # include <fcntl.h>
 
 int			get_next_line(int fd, char **line);
-char		*free_str(char *str);
-
-size_t		ft_strlen(char *s);
-char		*ft_strjoin(char *s1, char *s2);
-char		*ft_substr(char *s);
-char		*ft_strdup(char *dst);
-char		*ft_calloc(size_t count, size_t size);
 
 #endif
