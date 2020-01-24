@@ -12,14 +12,14 @@
 
 #include "get_next_line.h"
 
-static int	ft_get_that_line(char **line, char *buff, int fctr, int len)
+ int	ft_get_that_line(char **line, char *buff, int fctr, int len)
 {
 	int 	i;
 	int		j;
 	char	*tmp;
 
 	tmp = *line;
-	i = (fctr - 1) * BUFFER_SIZE;
+	i = -1;
 	j = -1;
 	if (!(*line = (char *)malloc(sizeof(**line) * (BUFFER_SIZE * fctr + 1))))
 	{
@@ -27,6 +27,9 @@ static int	ft_get_that_line(char **line, char *buff, int fctr, int len)
 		tmp = NULL;
 		return (-1);
 	}
+	while (tmp && tmp[++i])
+		(*line)[i] = tmp[i];
+	i = (i < 0) ? 0 : i;
 	while (++j < len)
 		(*line)[i + j] = buff[j];
 	(*line)[i + j] = 0;
@@ -35,28 +38,34 @@ static int	ft_get_that_line(char **line, char *buff, int fctr, int len)
 	while (buff[j])
 		buff[i++] = buff[j++];
 	buff[i] = 0;
+	free(tmp);
+	tmp = NULL;
 	return (1);
 }
 
-static char	*ft_gnl_join(char *line, char *buff, int fctr)
+char	*ft_gnl_join(char *line, char *buff, int fctr)
 {
 	int 	i;
 	int 	j;
-	char 	*tmp;
+	char 	*str;
 
-	tmp = line;
-	i = (fctr - 1) * BUFFER_SIZE;
+	i = -1;
 	j = -1;
-	if (!(line = (char *)malloc(sizeof(*line) * (BUFFER_SIZE * fctr + 1))))
+	if (!(str = (char *)malloc(sizeof(*str) * (BUFFER_SIZE * fctr + 1))))
 	{
-		free(tmp);
-		return (tmp = NULL);
+		free(line);
+		return (line = NULL);
 	}
+	while (line && line[++i])
+		str[i] = line[i];
+	i = (i < 0) ? 0 : i;
 	while (buff[++j])
-		line[i + j] = buff[j];
-	line[i] = 0;
+		str[i + j] = buff[j];
+	str[i + j] = 0;
 	buff[0] = 0;
-	return (line);
+	free(line);
+	line = NULL;
+	return (str);
 }
 
 int			get_next_line(int fd, char **line)
