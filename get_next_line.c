@@ -5,7 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: grezette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/11 12:56:39 by grezette          #+#    #+#             */
+/*   Created: 2020/01/25 18:03:15 by grezette          #+#    #+#             */
+/*   Updated: 2020/01/25 18:33:59 by grezette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +49,8 @@ int				get_next_line(int fd, char **line)
 
 	fctr = 0;
 	ret = 1;
+	if (!((*line = NULL)) && (BUFFER_SIZE < 1 || fd < 0))
+		return (-1);
 	while (ret)
 	{
 		if (!(buff[0]))
