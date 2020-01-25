@@ -6,7 +6,6 @@
 /*   By: grezette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/11 12:56:39 by grezette          #+#    #+#             */
-/*   Updated: 2020/01/24 21:23:15 by grezette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,30 +39,6 @@ static int		ft_get_that_line(char **line, char *buff, int fctr, int len)
 	return (1);
 }
 
-static char		*ft_gnl_join(char *line, char *buff, int fctr)
-{
-	int		i;
-	int		j;
-	char	*str;
-
-	i = -1;
-	j = -1;
-	if (!(str = (char *)malloc(sizeof(*str) * (BUFFER_SIZE * fctr + 1))))
-	{
-		free(line);
-		return (NULL);
-	}
-	while (line && line[++i])
-		str[i] = line[i];
-	i = (i < 0) ? 0 : i;
-	while (buff[++j])
-		str[i + j] = buff[j];
-	str[i + j] = 0;
-	buff[0] = 0;
-	free(line);
-	return (str);
-}
-
 int				get_next_line(int fd, char **line)
 {
 	static char	buff[BUFFER_SIZE + 1];
@@ -85,7 +60,7 @@ int				get_next_line(int fd, char **line)
 			len++;
 		if (buff[len] == '\n')
 			return (ft_get_that_line(line, buff, ++fctr, len));
-		if (!(*line = ft_gnl_join(*line, buff, ++fctr)))
+		if (ft_get_that_line(line, buff, ++fctr, len) == -1)
 			return (-1);
 	}
 	return (0);
