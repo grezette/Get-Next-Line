@@ -6,7 +6,7 @@
 /*   By: grezette <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/25 18:03:15 by grezette          #+#    #+#             */
-/*   Updated: 2020/01/25 18:33:59 by grezette         ###   ########.fr       */
+/*   Updated: 2020/01/31 17:42:54 by grezette         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ static int		ft_get_that_line(char **line, char *buff, int fctr, int len)
 	i = (i < 0) ? 0 : i;
 	while (++j < len)
 		(*line)[i + j] = buff[j];
-	(*line)[i + (j++)] = 0;
+	(*line)[i + j] = 0;
+	j = (buff[j]) ? j + 1 : j;
 	i = 0;
 	while (buff[j])
 		buff[i++] = buff[j++];
